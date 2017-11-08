@@ -3,12 +3,30 @@
 }
 
 <script type="text/javascript">
+
+    var pageNumber = 1;
+
     $(document).ready(function () {
-    $.ajax({
-        url: '@Url.Action("CustomerData", "Home")'
-    }).done(function (data) {
-        $("#customer-data").append(data);
+
+        updateCustomerData("firstname", true);
+
+    function updateCustomerData(orderBy, isDesc) {
+        $.ajax({
+            url: '@Url.Action("CustomerData", "Home")?pagenumber=' + pageNumber + "&orderBy=" + orderBy + "&isdesc=" + isDesc
+        }).done(function (data) {
+            $("#customer-data").empty();
+            $("#customer-data").append(data);
+                });
+        }
+
+    $(".page-link").click(function (node) {
+        refreshPage(this.text);
     });
+
+    function refreshPage(newPageNumber) {
+        pageNumber = newPageNumber;
+        updateCustomerData("firstname", true);
+    }
 });
 </script>
 

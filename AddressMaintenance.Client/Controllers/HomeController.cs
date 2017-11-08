@@ -1,6 +1,8 @@
 ﻿using AddressMaintenance.Client.Helpers;
+using AddressMaintenance.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,9 +31,14 @@ namespace AddressMaintenance.Client.Controllers
             return View();
         }
 
-        public ActionResult CustomerData()
+        public ActionResult CustomerData(int pageNumber, string orderBy, bool isDesc)
         {
-            var customersPagedList = AddressMaintenanceChannel.Instance.Service.GetAllCustomers();
+            var customerSortField = (orderBy == "firstname") ? CustomerSortField.FirstName : CustomerSortField.LastName;
+            var listSortDirection = (isDesc) ? ListSortDirection.Descending : ListSortDirection.Ascending;
+            var customersPagedList = AddressMaintenanceChannel.Instance.Service.GetAllCustomers(
+                pageNumber, 
+                customerSortField,
+                listSortDirection);
 
             return View(customersPagedList);
         }
