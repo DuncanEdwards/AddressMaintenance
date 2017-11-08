@@ -9,7 +9,12 @@ namespace AddressMaintenance.Repository
     public interface IAddressMaintenanceRepository
     {
 
-        PagedList<Customer> GetAllCustomers(int pageNumber, int pageSize, CustomerSortField customerSortField, ListSortDirection listSortDirection);
+        PagedList<Customer> GetAllCustomers(
+            int pageNumber, 
+            int pageSize, 
+            CustomerSortField customerSortField, 
+            ListSortDirection listSortDirection,
+            string searchQuery);
 
         Customer GetCustomer(Guid id);
 

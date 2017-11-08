@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+@model AddressMaintenance.Model.CustomerPagedList
+
+@foreach (var customer in Model.Customers) { 
+<tr>
+    <td>@customer.FirstName</td>
+    <td>@customer.LastName</td>
+    <td><span class="badge badge-warning">No current address</span></td>
+</tr>
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddressMaintenance.Client.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,8 @@ namespace AddressMaintenance.Client.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+
+            return View();            
         }
 
         public ActionResult About()
@@ -25,6 +27,13 @@ namespace AddressMaintenance.Client.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult CustomerData()
+        {
+            var customersPagedList = AddressMaintenanceChannel.Instance.Service.GetAllCustomers();
+
+            return View(customersPagedList);
         }
     }
 }

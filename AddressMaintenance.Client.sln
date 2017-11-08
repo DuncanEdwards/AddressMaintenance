@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressMaintenance.Client",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressMaintenance.Client.Tests", "AddressMaintenance.Client.Tests\AddressMaintenance.Client.Tests.csproj", "{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressMaintenance.Model", "AddressMaintenance.Model\AddressMaintenance.Model.csproj", "{FE3F6868-DE68-49DA-B145-226B011931A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressMaintenance.Interfaces", "AddressMaintenance.Interfaces\AddressMaintenance.Interfaces.csproj", "{A00AA7CA-71C5-4A36-B729-42BF39992C67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE3F6868-DE68-49DA-B145-226B011931A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE3F6868-DE68-49DA-B145-226B011931A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE3F6868-DE68-49DA-B145-226B011931A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE3F6868-DE68-49DA-B145-226B011931A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A00AA7CA-71C5-4A36-B729-42BF39992C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A00AA7CA-71C5-4A36-B729-42BF39992C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00AA7CA-71C5-4A36-B729-42BF39992C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A00AA7CA-71C5-4A36-B729-42BF39992C67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

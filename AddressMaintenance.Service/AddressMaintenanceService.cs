@@ -49,13 +49,14 @@ namespace AddressMaintenance.Service
             int pageNumber, 
             CustomerSortField customerSortField,
             ListSortDirection listSortDirection,
-            string SearchQuery)
+            string searchQuery)
         {
             var customers = _repository.GetAllCustomers(
                 pageNumber, 
                 Convert.ToInt32(ConfigurationManager.AppSettings["CustomerPageSize"]), 
                 customerSortField,
-                listSortDirection);
+                listSortDirection,
+                searchQuery);
             //Construct and return paging of write types
             var customerPagingList = customers.GetCustomerPagingList();
             customerPagingList.Customers = Mapper.Map<List<CustomerDto>>(customers);

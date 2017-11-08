@@ -13,14 +13,30 @@ namespace AddressMaintenance.Repository
 
         #region Customer
 
-        public PagedList<Customer> GetAllCustomers(int pageNumber, int pageSize, CustomerSortField customerSortField, ListSortDirection listSortDirection)
+        public PagedList<Customer> GetAllCustomers(
+            int pageNumber, 
+            int pageSize, 
+            CustomerSortField customerSortField, 
+            ListSortDirection listSortDirection,
+            string searchQuery)
         {
             using (var context = new AddressMaintenanceContext())
             {
                 //TODO: Make this more heavyweight/structured when we have more to sort on
-                var customersBeforePaging = (customerSortField == CustomerSortField.FirstName) ?
+                IQueryable<Customer> customersBeforePaging = (customerSortField == CustomerSortField.FirstName) ?
                     ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.OrderBy(c => c.FirstName) : context.Customers.OrderByDescending(c => c.FirstName)) :
                     ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.OrderBy(c => c.LastName) : context.Customers.OrderByDescending(c => c.LastName));
+
+                if (!String.IsNullOrEmpty(searchQuery))
+                {
+                    var searchQueryForWhereClause = searchQuery.Trim().ToLowerInvariant();
+                    customersBeforePaging = customersBeforePaging
+                        .Where(u =>
+                            (u.FirstName.Contains(searchQueryForWhereClause) ||
+                              u.LastName.Contains(searchQueryForWhereClause)));
+                }
+
+
                 return PagedList<Customer>.Create(customersBeforePaging, pageNumber, pageSize);
             }
         }
