@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressMaintenance.Client", "AddressMaintenance.Client\AddressMaintenance.Client.csproj", "{ACF96E6D-CBF2-4AA0-AF47-15ECC4E5F4D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressMaintenance.Client.Tests", "AddressMaintenance.Client.Tests\AddressMaintenance.Client.Tests.csproj", "{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACF96E6D-CBF2-4AA0-AF47-15ECC4E5F4D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF96E6D-CBF2-4AA0-AF47-15ECC4E5F4D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF96E6D-CBF2-4AA0-AF47-15ECC4E5F4D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF96E6D-CBF2-4AA0-AF47-15ECC4E5F4D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCEE8FD2-1258-4CCF-AE5A-7CDCD102785B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F08EC1B5-3D74-434B-8216-00B173F7273C}
+	EndGlobalSection
+EndGlobal

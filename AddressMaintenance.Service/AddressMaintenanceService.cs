@@ -1,21 +1,20 @@
 ﻿using AddressMaintenance.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using AddressMaintenance.Repository.Entities;
+using AddressMaintenance.Model;
+using AddressMaintenance.Model.Paging;
 using AddressMaintenance.Repository;
+using AddressMaintenance.Repository.Entities;
+using AutoMapper;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
-using AddressMaintenance.Model;
-using AutoMapper;
 using DevTrends.WCFDataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace AddressMaintenance.Service
 {
-    
+
     [ValidateDataAnnotationsBehavior]
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
     public class AddressMaintenanceService : IAddressMaintenanceService
@@ -46,10 +45,21 @@ namespace AddressMaintenance.Service
             _repository.UpdateCustomer(customerEntity);
         }
 
-        public IList<CustomerDto> GetAllCustomers()
+        public CustomerPagedList GetAllCustomers(
+            int pageNumber, 
+            CustomerSortField customerSortField,
+            ListSortDirection listSortDirection,
+            string SearchQuery)
         {
-            var customers = _repository.GetAllCustomers();
-            return Mapper.Map<List<CustomerDto>>(customers);
+            var customers = _repository.GetAllCustomers(
+                pageNumber, 
+                Convert.ToInt32(ConfigurationManager.AppSettings["CustomerPageSize"]), 
+                customerSortField,
+                listSortDirection);
+            //Construct and return paging of write types
+            var customerPagingList = customers.GetCustomerPagingList();
+            customerPagingList.Customers = Mapper.Map<List<CustomerDto>>(customers);
+            return customerPagingList;
         }
 
         public CustomerDto GetCustomer(Guid id)

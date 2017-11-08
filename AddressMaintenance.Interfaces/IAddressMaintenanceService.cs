@@ -1,6 +1,7 @@
 ﻿using AddressMaintenance.Model;
+using AddressMaintenance.Model.Paging;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ServiceModel;
 
 namespace AddressMaintenance.Interfaces
@@ -12,7 +13,11 @@ namespace AddressMaintenance.Interfaces
         #region Customer
 
         [OperationContract]
-        IList<CustomerDto> GetAllCustomers();
+        CustomerPagedList GetAllCustomers(
+            int pageNumber = 1, 
+            CustomerSortField customerSortField = CustomerSortField.LastName,
+            ListSortDirection listSortDirection = ListSortDirection.Ascending,
+            string SearchQuery = "");
 
         [OperationContract]
         CustomerDto GetCustomer(Guid id);

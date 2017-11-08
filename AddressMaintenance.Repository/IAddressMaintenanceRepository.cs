@@ -1,16 +1,15 @@
-﻿using AddressMaintenance.Repository.Entities;
+﻿using AddressMaintenance.Model;
+using AddressMaintenance.Model.Paging;
+using AddressMaintenance.Repository.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace AddressMaintenance.Repository
 {
     public interface IAddressMaintenanceRepository
     {
 
-        List<Customer> GetAllCustomers();
+        PagedList<Customer> GetAllCustomers(int pageNumber, int pageSize, CustomerSortField customerSortField, ListSortDirection listSortDirection);
 
         Customer GetCustomer(Guid id);
 

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AddressMaintenance.Model;
+using AddressMaintenance.Model.Paging;
 using AddressMaintenance.Repository.Entities;
+using System;
+using System.ComponentModel;
+using System.Linq;
 using System.ServiceModel;
 
 namespace AddressMaintenance.Repository
@@ -13,11 +13,15 @@ namespace AddressMaintenance.Repository
 
         #region Customer
 
-        public List<Customer> GetAllCustomers()
+        public PagedList<Customer> GetAllCustomers(int pageNumber, int pageSize, CustomerSortField customerSortField, ListSortDirection listSortDirection)
         {
             using (var context = new AddressMaintenanceContext())
             {
-                return context.Customers.ToList();
+                //TODO: Make this more heavyweight/structured when we have more to sort on
+                var customersBeforePaging = (customerSortField == CustomerSortField.FirstName) ?
+                    ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.OrderBy(c => c.FirstName) : context.Customers.OrderByDescending(c => c.FirstName)) :
+                    ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.OrderBy(c => c.LastName) : context.Customers.OrderByDescending(c => c.LastName));
+                return PagedList<Customer>.Create(customersBeforePaging, pageNumber, pageSize);
             }
         }
 
