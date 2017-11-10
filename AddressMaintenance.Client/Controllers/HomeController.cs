@@ -31,16 +31,17 @@ namespace AddressMaintenance.Client.Controllers
             return View();
         }
 
-        public ActionResult CustomerData(int pageNumber, string orderBy, bool isDesc)
+        public ActionResult CustomerData(int pageNumber, string orderBy, bool isDesc, string searchTerm)
         {
             var customerSortField = (orderBy == "firstname") ? CustomerSortField.FirstName : CustomerSortField.LastName;
             var listSortDirection = (isDesc) ? ListSortDirection.Descending : ListSortDirection.Ascending;
             var customersPagedList = AddressMaintenanceChannel.Instance.Service.GetAllCustomers(
                 pageNumber, 
                 customerSortField,
-                listSortDirection);
+                listSortDirection,
+                searchTerm);
 
-            return View(customersPagedList);
+            return PartialView(customersPagedList);
         }
     }
 }

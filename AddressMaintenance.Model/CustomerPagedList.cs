@@ -25,5 +25,21 @@ namespace AddressMaintenance.Model
         [DataMember]
         public int TotalCount { get; set; }
 
+        public bool IsPrevious
+        {
+            get
+            {
+                return CurrentPage > 1;
+            }
+        }
+
+        public bool IsNext
+        {
+            get
+            {
+                return CurrentPage < TotalPages;
+            }
+        }
+
     }
 }
