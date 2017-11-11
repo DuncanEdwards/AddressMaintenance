@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer.cs" />
+    <Compile Include="AddressDto.cs" />
+    <Compile Include="CustomerDto.cs" />
     <Compile Include="CustomerPagedList.cs" />
     <Compile Include="CustomerSortFields.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

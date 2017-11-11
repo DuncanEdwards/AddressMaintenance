@@ -11,10 +11,10 @@ namespace AddressMaintenance.Client.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
-
-            return View();            
+            ViewBag.Message = message;
+            return View();
         }
 
         public ActionResult About()
@@ -31,6 +31,20 @@ namespace AddressMaintenance.Client.Controllers
             return View();
         }
 
+        public ActionResult EditCustomer()
+        {
+
+            return View();
+        }
+
+        [Route("customer/remove/{id}")]
+        public ActionResult RemoveCustomer(string id, string firstName, string lastName)
+        {
+            var message = "User " + firstName + " " + lastName + " successfully removed.";
+            AddressMaintenanceChannel.Instance.Service.RemoveCustomer(Guid.Parse(id));
+            return RedirectToAction("Index", "Home", new { message = message });
+        }
+
         public ActionResult CustomerData(int pageNumber, string orderBy, bool isDesc, string searchTerm)
         {
             var customerSortField = (orderBy == "firstname") ? CustomerSortField.FirstName : CustomerSortField.LastName;
@@ -40,7 +54,9 @@ namespace AddressMaintenance.Client.Controllers
                 customerSortField,
                 listSortDirection,
                 searchTerm);
-
+            ViewBag.CustomerSortField = customerSortField;
+            ViewBag.ListSortDirection = listSortDirection;
+            
             return PartialView(customersPagedList);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AddressMaintenance.Repository.Entities
@@ -16,6 +17,8 @@ namespace AddressMaintenance.Repository.Entities
         [Required]
         [MaxLength(300)]
         public string LastName { get; set; }
+
+        public IList<Address> Addresses { get; set; }
 
     }
 }

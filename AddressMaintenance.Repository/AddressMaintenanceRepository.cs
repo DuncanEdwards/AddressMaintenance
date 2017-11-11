@@ -24,8 +24,8 @@ namespace AddressMaintenance.Repository
             {
                 //TODO: Make this more heavyweight/structured when we have more to sort on
                 IQueryable<Customer> customersBeforePaging = (customerSortField == CustomerSortField.FirstName) ?
-                    ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.OrderBy(c => c.FirstName) : context.Customers.OrderByDescending(c => c.FirstName)) :
-                    ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.OrderBy(c => c.LastName) : context.Customers.OrderByDescending(c => c.LastName));
+                    ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.Include("Addresses").OrderBy(c => c.FirstName) : context.Customers.Include("Addresses").OrderByDescending(c => c.FirstName)) :
+                    ((listSortDirection == ListSortDirection.Ascending) ? context.Customers.Include("Addresses").OrderBy(c => c.LastName) : context.Customers.Include("Addresses").OrderByDescending(c => c.LastName));
 
                 if (!String.IsNullOrEmpty(searchQuery))
                 {

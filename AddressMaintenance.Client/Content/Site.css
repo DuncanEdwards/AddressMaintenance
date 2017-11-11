@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.display-none {
+    display:none;
+}
+
+button {
+    cursor:pointer;
+}

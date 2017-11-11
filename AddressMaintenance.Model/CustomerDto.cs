@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -17,6 +18,9 @@ namespace AddressMaintenance.Model
         [DataMember]
         [Required]
         public string LastName { get; set; }
+
+        [DataMember]
+        public IList<AddressDto> Addresses { get; set; }
 
     }
 }

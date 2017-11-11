@@ -56,8 +56,22 @@
   <ItemGroup>
     <Compile Include="AddressMaintenanceContext.cs" />
     <Compile Include="AddressMaintenanceRepository.cs" />
+    <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="IAddressMaintenanceRepository.cs" />
+    <Compile Include="Migrations\201711111554586_address infrastructure.cs" />
+    <Compile Include="Migrations\201711111554586_address infrastructure.Designer.cs">
+      <DependentUpon>201711111554586_address infrastructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711111600152_MAde address lines nullable.cs" />
+    <Compile Include="Migrations\201711111600152_MAde address lines nullable.Designer.cs">
+      <DependentUpon>201711111600152_MAde address lines nullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711111604283_Tweaked required values.cs" />
+    <Compile Include="Migrations\201711111604283_Tweaked required values.Designer.cs">
+      <DependentUpon>201711111604283_Tweaked required values.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Paging\PagedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -73,6 +87,17 @@
       <Project>{FE3F6868-DE68-49DA-B145-226B011931A8}</Project>
       <Name>AddressMaintenance.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711111554586_address infrastructure.resx">
+      <DependentUpon>201711111554586_address infrastructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711111600152_MAde address lines nullable.resx">
+      <DependentUpon>201711111600152_MAde address lines nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711111604283_Tweaked required values.resx">
+      <DependentUpon>201711111604283_Tweaked required values.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

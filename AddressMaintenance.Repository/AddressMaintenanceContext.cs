@@ -15,6 +15,8 @@ namespace AddressMaintenance.Repository
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<Address> Addresses { get; set; }
+
         public AddressMaintenanceContext()
         {
             if (Customers.Count() == 0)
@@ -30,6 +32,13 @@ namespace AddressMaintenance.Repository
                     Customers.AddRange(customers);
                     SaveChanges();
                 } 
+            } else
+            {
+                var address = new Address { AddressLine1 = "64a Lascotts Road", AddressLine2 = "London, London", PostCode = "N22 8JN" };
+                var customer = new Customer() { FirstName = "Duncan", LastName = "Edwards", Addresses = new List<Address>() { address } };
+                Addresses.Add(address);
+                Customers.Add(customer);
+                SaveChanges();
             }
 
             

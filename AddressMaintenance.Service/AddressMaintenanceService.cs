@@ -1,6 +1,5 @@
 ﻿using AddressMaintenance.Interfaces;
 using AddressMaintenance.Model;
-using AddressMaintenance.Model.Paging;
 using AddressMaintenance.Repository;
 using AddressMaintenance.Repository.Entities;
 using AutoMapper;
@@ -30,6 +29,8 @@ namespace AddressMaintenance.Service
             Mapper.Initialize(config => {
                 config.CreateMap<Customer, CustomerDto>();
                 config.CreateMap<CustomerDto, Customer>();
+                config.CreateMap<Address, AddressDto>();
+                config.CreateMap<AddressDto, Address>();
             });
         }
 

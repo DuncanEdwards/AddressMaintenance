@@ -4,51 +4,84 @@
 
 <script type="text/javascript">
 
-    var pageNumber = 1;
-    var orderField = "firstname";
-    var orderDirection = true;
-    var searchTerm = "";
+    var CustomerParameters = {};
 
     $(document).ready(function () {
 
-        updateCustomerData(orderField, orderDirection);
+        CustomerParameters.pageNumber = 1;
+        CustomerParameters.orderField = "lastname";
+        CustomerParameters.isDesc = false;
+        CustomerParameters.searchTerm = "";
 
-        function updateCustomerData(orderBy, isDesc) {
+
+        updateCustomerData(false);
+
+        function updateCustomerData(hideAlert) {
+
+            if (hideAlert) {
+                $('.alert-info').hide();
+            }
+
             $.ajax({
-                url: '@Url.Action("CustomerData", "Home")?pagenumber=' + pageNumber + "&orderBy=" + orderBy + "&isdesc=" + isDesc + "&searchTerm=" + searchTerm,
+                url: '@Url.Action("CustomerData", "Home")?pagenumber=' + CustomerParameters.pageNumber + "&orderBy=" + CustomerParameters.orderField + "&isdesc=" + CustomerParameters.isDesc + "&searchTerm=" + CustomerParameters.searchTerm,
                 success: function (viewHTML) {
                     $("#customer-data").empty();
                     $("#customer-data").append(viewHTML);
+
+                    
                 }
             });
         }
 
-        $('#search-button').click(function () {
-            var newSearchTerm = $('#search-term').val();
-            if (searchTerm != newSearchTerm) {
-                searchTerm = newSearchTerm;
-                pageNumber = 1;
+        jQuery('#search-term').on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                // Cancel the default action on keypress event
+                e.preventDefault();
+                var newSearchTerm = $('#search-term').val();
+                if (CustomerParameters.searchTerm != newSearchTerm) {
+                    CustomerParameters.searchTerm = newSearchTerm;
+                    pageNumber = 1;
+                }
+                updateCustomerData(true);
             }
-            updateCustomerData(orderField, orderDirection);
+        });
+
+        $(document).on("click", ".sort-header", function () {
+            changeColumnOrder($(this).attr("header-column"));
         });
 
         $(document).on("click", ".page-link", function (node) {
-            refreshPage($(this).find(".page-link-value").val());
+            refreshPage($(this).attr("page-link-value"));
         });
 
+        function changeColumnOrder(headerColumn) {
+            if ((CustomerParameters.orderField == headerColumn)) {
+                CustomerParameters.isDesc = (!CustomerParameters.isDesc);
+            } else {
+                CustomerParameters.orderField = headerColumn;
+                CustomerParameters.isDesc = false;
+            }
+            CustomerParameters.pageNumber = 1;
+            updateCustomerData(true);
+        }
+
         function refreshPage(newPageNumber) {
-            pageNumber = newPageNumber;
-            updateCustomerData(orderField, orderDirection);
+            CustomerParameters.pageNumber = newPageNumber;
+            updateCustomerData(true);
         }
     });
 </script>
 
         <h2>Customers</h2>
+
+@if(ViewBag.Message != null) { 
+<div class="alert alert-info" role="alert">
+    @ViewBag.Message
+</div>
+}
 <div class="input-group">
-    <input id="search-term" type="text" class="form-control" name="x" placeholder="Search term...">
-    <span class="input-group-btn">
-        <button id="search-button" class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
-    </span>
+    <input id="search-term" type="text" class="form-control" name="x" placeholder="Search...">
+    <button onclick='location.href="@Url.Action("EditCustomer", "Home")"' type="button" class="btn btn-primary ml-2">Add Customer</button>
 </div>
 <br />
 <div id="customer-data">
