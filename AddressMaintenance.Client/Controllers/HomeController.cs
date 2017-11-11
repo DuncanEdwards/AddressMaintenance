@@ -37,6 +37,13 @@ namespace AddressMaintenance.Client.Controllers
             return View();
         }
 
+        public ActionResult AddCustomer(FormCollection form)
+        {
+            //AddressMaintenanceChannel.Instance.Service.AddCustomer()
+
+            return View();
+        }
+
         [Route("customer/remove/{id}")]
         public ActionResult RemoveCustomer(string id, string firstName, string lastName)
         {

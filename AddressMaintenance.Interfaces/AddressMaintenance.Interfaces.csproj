@@ -49,10 +49,6 @@
       <Project>{FE3F6868-DE68-49DA-B145-226B011931A8}</Project>
       <Name>AddressMaintenance.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AddressMaintenance.Repository\AddressMaintenance.Repository.csproj">
-      <Project>{E16718A0-DF22-4053-A4EC-48F2017669A4}</Project>
-      <Name>AddressMaintenance.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

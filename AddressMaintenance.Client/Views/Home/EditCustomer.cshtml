@@ -1,6 +1,30 @@
 ﻿<html>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#singlebutton').click(function () {
+            event.preventDefault();
+            var customerForm = $("#add-customer-form")[0];
+            var customerFormData = $(customerForm).serializeArray();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddCustomer", "Home")',
+                data: customerFormData,
+                success: function (viewHTML) {
+                    $("#customer-data").empty();
+                    $("#customer-data").append(viewHTML);
+
+
+                }
+            });
+        });
+
+    });
+</script>
 <body>
-    <form class="form-horizontal">
+    <form id="add-customer-form" class="form-horizontal">
         <fieldset>
 
             <!-- Form Name -->
@@ -10,7 +34,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="firstname">First Name</label>
                 <div class="col-md-4">
-                    <input id="firstname" name="textinput" type="text" placeholder="First name" class="form-control input-md">
+                    <input id="firstname" name="firstname" type="text" placeholder="First name" class="form-control input-md">
 
                 </div>
             </div>
@@ -19,7 +43,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="lastname">Last Name</label>
                 <div class="col-md-4">
-                    <input id="lastname" name="textinput" type="text" placeholder="Last name" class="form-control input-md">
+                    <input id="lastname" name="lastname" type="text" placeholder="Last name" class="form-control input-md">
 
                 </div>
             </div>
@@ -28,7 +52,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="addressline1">Address line 1</label>
                 <div class="col-md-8">
-                    <input id="addressline1" name="textinput" type="text" placeholder="Address line 1" class="form-control col-md-10 input-md">
+                    <input id="addressline1" name="addressline1" type="text" placeholder="Address line 1" class="form-control col-md-10 input-md">
                 </div>
             </div>
 
@@ -36,7 +60,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="addressline2">Address line 2</label>
                 <div class="col-md-8">
-                    <input id="addressline2" name="textinput" type="text" placeholder="Address line 2" class="form-control col-md-10 input-md">
+                    <input id="addressline2" name="addressline2" type="text" placeholder="Address line 2" class="form-control col-md-10 input-md">
                 </div>
             </div>
 
@@ -44,7 +68,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="addressline3">Address line 3</label>
                 <div class="col-md-8">
-                    <input id="addressline3" name="textinput" type="text" placeholder="Address line 3" class="form-control col-md-10 input-md">
+                    <input id="addressline3" name="addressline3" type="text" placeholder="Address line 3" class="form-control col-md-10 input-md">
                 </div>
             </div>
 
@@ -52,7 +76,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="postcode">Post code</label>
                 <div class="col-md-6">
-                    <input id="postcode" name="textinput" type="text" placeholder="Post code" class="form-control col-md-6 input-md">
+                    <input id="postcode" name="postcode" type="text" placeholder="Post code" class="form-control col-md-6 input-md">
                 </div>
             </div>
 

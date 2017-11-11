@@ -1,5 +1,4 @@
 ﻿using AddressMaintenance.Model;
-using AddressMaintenance.Model.Paging;
 using System;
 using System.ComponentModel;
 using System.ServiceModel;
