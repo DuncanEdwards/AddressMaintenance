@@ -76,6 +76,10 @@ namespace AddressMaintenance.Repository
             using (var context = new AddressMaintenanceContext())
             {
                 var matchingCustomer = GetCustomerOrFault(context, id);
+                foreach (var address in matchingCustomer.Addresses.ToList())
+                {
+                    context.Addresses.Remove(address);
+                }
                 context.Customers.Remove(matchingCustomer);
                 context.SaveChanges();
             }
@@ -83,7 +87,7 @@ namespace AddressMaintenance.Repository
 
         private Customer GetCustomerOrFault(AddressMaintenanceContext context, Guid id)
         {
-            var customer = context.Customers.FirstOrDefault(c => c.Id == id);
+            var customer = context.Customers.Include("Addresses").FirstOrDefault(c => c.Id == id);
             if (customer == null)
             {
                 throw new FaultException("No customer found for id=" + customer.Id);

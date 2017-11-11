@@ -25,17 +25,24 @@ namespace AddressMaintenance.Model
         [DataMember]
         public string PostCode { get; set; }
 
+        [DataMember]
+        public DateTime? ValidUntil { get; set; }
+
+        [DataMember]
+        public DateTime? ValidFrom { get; set; }
+
         public override string ToString()
         {
             var stringBuilder = new StringBuilder(AddressLine1);
             if (!String.IsNullOrEmpty(AddressLine2))
             {
-                stringBuilder.Append(AddressLine2);
+                stringBuilder.Append(", " + AddressLine2);
             }
             if (!String.IsNullOrEmpty(AddressLine3))
             {
-                stringBuilder.Append(AddressLine3);
+                stringBuilder.Append(", " + AddressLine3);
             }
+            stringBuilder.Append(", " + PostCode);
             return stringBuilder.ToString();
         }
 

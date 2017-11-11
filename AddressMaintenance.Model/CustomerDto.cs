@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace AddressMaintenance.Model
@@ -21,6 +22,18 @@ namespace AddressMaintenance.Model
 
         [DataMember]
         public IList<AddressDto> Addresses { get; set; }
+
+        public AddressDto CurrentAddress
+        {
+            get
+            {
+                if (Addresses.Count == 1)
+                {
+                    return Addresses.First();
+                }
+                return Addresses.FirstOrDefault(a => a.ValidFrom < DateTime.Now);
+            }
+        }
 
     }
 }

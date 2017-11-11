@@ -40,7 +40,7 @@
                 var newSearchTerm = $('#search-term').val();
                 if (CustomerParameters.searchTerm != newSearchTerm) {
                     CustomerParameters.searchTerm = newSearchTerm;
-                    pageNumber = 1;
+                    CustomerParameters.pageNumber = 1;
                 }
                 updateCustomerData(true);
             }
