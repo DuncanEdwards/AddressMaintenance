@@ -1,21 +1,50 @@
-﻿<html>
+﻿
+<html>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
 
-        $('#singlebutton').click(function () {
+        $("#firstname").focus();
+
+        $('#changeaddressbutton').click(function () {
             event.preventDefault();
+            if($(this).hasClass('active')) {
+                $('#address-wrapper').hide();
+                $('#ischangeaddress').val("false");
+            } else {
+                $('#address-wrapper').show();
+                $('#ischangeaddress').val("true");
+            }
+            
+        });
+
+        $('#singlebutton').click(function () {
+            if (!$("#customerid").val()) {
+                $("#add-customer-form").submit();
+            }
+                
             var customerForm = $("#add-customer-form")[0];
             var customerFormData = $(customerForm).serializeArray();
+
+            $(".alert-info").hide();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("AddCustomer", "Home")',
+                url: customerForm.action,
                 data: customerFormData,
-                success: function (viewHTML) {
-                    $("#customer-data").empty();
-                    $("#customer-data").append(viewHTML);
-
+                success: function (message) {
+                    @if (Model == null)
+                    {
+                        @:$("#firstname").val("");
+                        @:$("#lastname").val("");
+                        @:$("#addressline1").val("");
+                        @:$("#addressline2").val("");
+                        @:$("#addressline3").val("");
+                        @:$("#postcode").val("");
+                    }
+                    $("#firstname").focus();
+                    $(".alert-info").text(message);
+                    $(".alert-info").show();
 
                 }
             });
@@ -24,17 +53,23 @@
     });
 </script>
 <body>
-    <form id="add-customer-form" class="form-horizontal">
+    <form id="add-customer-form" class="form-horizontal" action="@Url.Action(((Model == null)?"AddCustomer":"SaveCustomer"), "Home")">
         <fieldset>
 
             <!-- Form Name -->
-            <legend>Add Customer</legend>
+            <legend>@((Model == null)?"Add":"Edit") Customer</legend>
+
+            <div class="alert alert-info" style="display: none;" role="alert">
+                
+            </div>
+
+            <input id="customerid" name="id" type="hidden" value="@(Model?.Id)"/>
 
             <!-- First name input-->
             <div class="form-group">
                 <label class="col-md-4 control-label" for="firstname">First Name</label>
                 <div class="col-md-4">
-                    <input id="firstname" name="firstname" type="text" placeholder="First name" class="form-control input-md">
+                    <input id="firstname" name="firstname" value="@(Model?.FirstName)" type="text" placeholder="First name" class="form-control input-md">
 
                 </div>
             </div>
@@ -43,47 +78,97 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="lastname">Last Name</label>
                 <div class="col-md-4">
-                    <input id="lastname" name="lastname" type="text" placeholder="Last name" class="form-control input-md">
+                    <input id="lastname" name="lastname" value="@(Model?.LastName)" type="text" placeholder="Last name" class="form-control input-md">
 
                 </div>
             </div>
 
-            <!-- Address line 1 input-->
+            @if (Model != null) {
+
             <div class="form-group">
-                <label class="col-md-4 control-label" for="addressline1">Address line 1</label>
                 <div class="col-md-8">
-                    <input id="addressline1" name="addressline1" type="text" placeholder="Address line 1" class="form-control col-md-10 input-md">
+                    <table class="table table-bordered table-sm col-md-8">
+                        <thead>
+                            <tr>
+                                <th scope="col">Address</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var address in Model.Addresses)
+                            {
+                                <tr>
+                                    <td>@address.ToString()</td>
+                                    <td>@(address.ValidFrom?.ToString("dd-MMM-yyyy"))</td>
+                                    <td>@(address.ValidUntil?.ToString("dd-MMM-yyyy"))</td>
+                                    <td>@if (address == Model.CurrentAddress)
+                                    {<span class='badge badge-success'>current</span>}
+                                    else
+                                    { <span class='badge badge-danger'>previous</span> }</td>
+                                 </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            }
+
+            @if (Model != null)
+            {
+                <!-- Button -->
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <button id="changeaddressbutton" data-toggle="button" name="changeaddressbutton" class="btn btn-secondary">Change address</button>
+                    </div>
+                </div>
+
+                <input id="ischangeaddress" name="ischangeaddress" type="hidden" value="false" />
+            }
+
+
+            <div id="address-wrapper" class="address-wrapper" style='display:@((Model != null)?"none":"block")'>
+
+                <!-- Address line 1 input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="addressline1">Address line 1</label>
+                    <div class="col-md-8">
+                        <input id="addressline1" name="addressline1" type="text" placeholder="Address line 1" class="form-control col-md-10 input-md">
+                    </div>
+                </div>
+
+                <!-- Address line 2 input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="addressline2">Address line 2</label>
+                    <div class="col-md-8">
+                        <input id="addressline2" name="addressline2" type="text" placeholder="Address line 2" class="form-control col-md-10 input-md">
+                    </div>
+                </div>
+
+                <!-- Address line 3 input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="addressline3">Address line 3</label>
+                    <div class="col-md-8">
+                        <input id="addressline3" name="addressline3" type="text" placeholder="Address line 3" class="form-control col-md-10 input-md">
+                    </div>
+                </div>
+
+                <!-- Postcode input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="postcode">Post code</label>
+                    <div class="col-md-6">
+                        <input id="postcode" name="postcode" type="text" placeholder="Post code" class="form-control col-md-6 input-md">
+                    </div>
                 </div>
             </div>
 
-            <!-- Address line 2 input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="addressline2">Address line 2</label>
-                <div class="col-md-8">
-                    <input id="addressline2" name="addressline2" type="text" placeholder="Address line 2" class="form-control col-md-10 input-md">
-                </div>
-            </div>
-
-            <!-- Address line 2 input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="addressline3">Address line 3</label>
-                <div class="col-md-8">
-                    <input id="addressline3" name="addressline3" type="text" placeholder="Address line 3" class="form-control col-md-10 input-md">
-                </div>
-            </div>
-
-            <!-- Address line 2 input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="postcode">Post code</label>
-                <div class="col-md-6">
-                    <input id="postcode" name="postcode" type="text" placeholder="Post code" class="form-control col-md-6 input-md">
-                </div>
-            </div>
 
             <!-- Button -->
             <div class="form-group">
                 <div class="col-md-4">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Commit</button>
+                    <button id="singlebutton" name="singlebutton" type="submit" class="btn btn-primary">Save</button>
                 </div>
             </div>
 

@@ -10,7 +10,7 @@ namespace AddressMaintenance.Model
     public class CustomerDto
     {
         [DataMember]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         [DataMember]
         [Required]
@@ -21,17 +21,13 @@ namespace AddressMaintenance.Model
         public string LastName { get; set; }
 
         [DataMember]
-        public IList<AddressDto> Addresses { get; set; }
+        public IList<AddressDto> Addresses { get; set; } = new List<AddressDto>();
 
         public AddressDto CurrentAddress
         {
             get
             {
-                if (Addresses.Count == 1)
-                {
-                    return Addresses.First();
-                }
-                return Addresses.FirstOrDefault(a => a.ValidFrom < DateTime.Now);
+                return Addresses.FirstOrDefault();
             }
         }
 

@@ -31,17 +31,63 @@ namespace AddressMaintenance.Client.Controllers
             return View();
         }
 
-        public ActionResult EditCustomer()
+        public ActionResult EditCustomer(string id)
         {
-
-            return View();
+            CustomerDto customerDto = null;
+            if (!String.IsNullOrEmpty(id))
+            {
+                customerDto = AddressMaintenanceChannel.Instance.Service.GetCustomer(Guid.Parse(id));
+            }
+            return View(customerDto);
         }
 
         public ActionResult AddCustomer(FormCollection form)
         {
-            //AddressMaintenanceChannel.Instance.Service.AddCustomer()
+            var customerDto = new CustomerDto() {
+                FirstName = form["firstname"],
+                LastName = form["lastname"]
+            };
+            var addressDto = new AddressDto()
+            {
+                AddressLine1 = form["addressline1"],
+                AddressLine2 = form["addressline2"],
+                AddressLine3 = form["addressline3"],
+                PostCode = form["postcode"]
+            };
+            customerDto.Addresses.Add(addressDto);
+            AddressMaintenanceChannel.Instance.Service.AddCustomer(customerDto);
+            return Json("Customer " + customerDto.FirstName + " " + customerDto.LastName + " successfully added.");
+        }
 
-            return View();
+        public ActionResult SaveCustomer(FormCollection form)
+        {
+            var customerDto = new CustomerDto();
+            if (Convert.ToBoolean(form["ischangeaddress"]))
+            {
+                //It's probably easier if we load one to get existing addresses
+                customerDto = AddressMaintenanceChannel.Instance.Service.GetCustomer(Guid.Parse(form["id"]));
+                var date = DateTime.Now;
+                customerDto.CurrentAddress.ValidUntil = date;
+                var address = new AddressDto()
+                {
+                    AddressLine1 = form["addressline1"],
+                    AddressLine2 = form["addressline2"],
+                    AddressLine3 = form["addressline3"],
+                    PostCode = form["postcode"],
+                    ValidFrom = date
+                };
+                var addresses = customerDto.Addresses.ToList();
+                addresses.Add(address);
+                customerDto.Addresses = addresses;
+            }
+            customerDto.Id = Guid.Parse(form["id"]);
+            customerDto.FirstName = form["firstname"];
+            customerDto.LastName = form["lastname"];
+
+
+            AddressMaintenanceChannel.Instance.Service.UpdateCustomer(customerDto);
+
+            return View("editcustomer", customerDto);
         }
 
         [Route("customer/remove/{id}")]

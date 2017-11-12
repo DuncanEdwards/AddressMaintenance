@@ -37,7 +37,13 @@ namespace AddressMaintenance.Repository
                 }
 
 
-                return PagedList<Customer>.Create(customersBeforePaging, pageNumber, pageSize);
+                var pagedList =  PagedList<Customer>.Create(customersBeforePaging, pageNumber, pageSize);
+                foreach (var customer in pagedList)
+                {
+                    SortCustomerAddresses(customer);
+                }
+                return pagedList;
+            
             }
         }
 
@@ -54,6 +60,11 @@ namespace AddressMaintenance.Repository
         {
             using (var context = new AddressMaintenanceContext())
             {
+                foreach (var address in customer.Addresses.ToList())
+                {
+                    context.Addresses.Add(address);
+                    customer.Addresses.Add(address);
+                }
                 context.Customers.Add(customer);
                 context.SaveChanges();
                 return customer.Id;
@@ -67,6 +78,7 @@ namespace AddressMaintenance.Repository
                 var matchingCustomer = GetCustomerOrFault(context, customer.Id);
                 matchingCustomer.FirstName = customer.FirstName;
                 matchingCustomer.LastName = customer.LastName;
+                UpdateAddresses(context, matchingCustomer, customer);
                 context.SaveChanges();
             }
         }
@@ -85,6 +97,33 @@ namespace AddressMaintenance.Repository
             }
         }
 
+        private void UpdateAddresses(AddressMaintenanceContext context, Customer updateCustomer, Customer newCustomer)
+        {
+            foreach (var address in newCustomer.Addresses.ToList())
+            {
+                var matchingAddress = context.Addresses.FirstOrDefault(a => a.Id == address.Id);
+                if (matchingAddress != null)
+                {
+                    //The only field that could change is a valid until field
+                    matchingAddress.ValidUntil = address.ValidUntil;
+                } else
+                {
+                     
+                    context.Addresses.Add(address);
+                    updateCustomer.Addresses.Add(address);
+                }
+            }
+        }
+
+        private void SortCustomerAddresses(Customer customer)
+        {
+            if (customer.Addresses.Count > 1)
+            {
+                //Sort address if necessary
+                customer.Addresses = customer.Addresses.OrderByDescending(a => a.ValidFrom).ToList();
+            }
+        }
+
         private Customer GetCustomerOrFault(AddressMaintenanceContext context, Guid id)
         {
             var customer = context.Customers.Include("Addresses").FirstOrDefault(c => c.Id == id);
@@ -92,6 +131,7 @@ namespace AddressMaintenance.Repository
             {
                 throw new FaultException("No customer found for id=" + customer.Id);
             }
+            SortCustomerAddresses(customer);
             return customer;
         }
 
