@@ -61,11 +61,10 @@ namespace AddressMaintenance.Client.Controllers
 
         public ActionResult SaveCustomer(FormCollection form)
         {
-            var customerDto = new CustomerDto();
+            //We don't pass address stuff on, so we need to refresh
+            var customerDto = AddressMaintenanceChannel.Instance.Service.GetCustomer(Guid.Parse(form["customerid"]));
             if (Convert.ToBoolean(form["ischangeaddress"]))
             {
-                //It's probably easier if we load one to get existing addresses
-                customerDto = AddressMaintenanceChannel.Instance.Service.GetCustomer(Guid.Parse(form["id"]));
                 var date = DateTime.Now;
                 customerDto.CurrentAddress.ValidUntil = date;
                 var address = new AddressDto()
@@ -77,16 +76,15 @@ namespace AddressMaintenance.Client.Controllers
                     ValidFrom = date
                 };
                 var addresses = customerDto.Addresses.ToList();
-                addresses.Add(address);
+                addresses.Insert(0, address);
                 customerDto.Addresses = addresses;
             }
-            customerDto.Id = Guid.Parse(form["id"]);
             customerDto.FirstName = form["firstname"];
             customerDto.LastName = form["lastname"];
 
 
             AddressMaintenanceChannel.Instance.Service.UpdateCustomer(customerDto);
-
+            ViewBag.Message = "Customer " + customerDto.ToString() + " successfully updated.";
             return View("editcustomer", customerDto);
         }
 

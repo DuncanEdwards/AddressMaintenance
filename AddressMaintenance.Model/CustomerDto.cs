@@ -31,5 +31,9 @@ namespace AddressMaintenance.Model
             }
         }
 
+        public override string ToString()
+        {
+            return FirstName + " " + LastName;
+        }
     }
 }

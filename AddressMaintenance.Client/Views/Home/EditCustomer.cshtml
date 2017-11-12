@@ -20,8 +20,9 @@
         });
 
         $('#singlebutton').click(function () {
-            if (!$("#customerid").val()) {
+            if ($("#customerid").val()) {
                 $("#add-customer-form").submit();
+                return;
             }
                 
             var customerForm = $("#add-customer-form")[0];
@@ -53,17 +54,17 @@
     });
 </script>
 <body>
-    <form id="add-customer-form" class="form-horizontal" action="@Url.Action(((Model == null)?"AddCustomer":"SaveCustomer"), "Home")">
+    <form id="add-customer-form" method="post" class="form-horizontal" action="@Url.Action(((Model == null)?"AddCustomer":"SaveCustomer"), "Home")">
         <fieldset>
 
             <!-- Form Name -->
             <legend>@((Model == null)?"Add":"Edit") Customer</legend>
 
-            <div class="alert alert-info" style="display: none;" role="alert">
-                
+            <div class="alert alert-info" style="display:@((ViewBag.Message != null)?"block":"none");" role="alert">
+                @ViewBag.Message
             </div>
 
-            <input id="customerid" name="id" type="hidden" value="@(Model?.Id)"/>
+            <input id="customerid" name="customerid" type="hidden" value="@(Model?.Id)"/>
 
             <!-- First name input-->
             <div class="form-group">
