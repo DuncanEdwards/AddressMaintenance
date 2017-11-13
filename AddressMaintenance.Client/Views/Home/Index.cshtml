@@ -27,8 +27,25 @@
                 success: function (viewHTML) {
                     $("#customer-data").empty();
                     $("#customer-data").append(viewHTML);
+                }
+            });
 
-                    
+        }
+
+        function removeCustomer(id, customername) {
+            if (!confirm('Are you sure you want to delete ' + customername + '?')) {
+                return;
+            } 
+
+            $('.alert-info').hide();
+
+            $.ajax({
+                url: '@Url.Action("RemoveCustomer", "Home")?pagenumber=' + CustomerParameters.pageNumber + "&orderBy=" + CustomerParameters.orderField + "&isdesc=" + CustomerParameters.isDesc + "&searchTerm=" + CustomerParameters.searchTerm + "&id=" + id,
+                success: function (viewHTML) {
+                    $("#customer-data").empty();
+                    $("#customer-data").append(viewHTML);
+                    $('.alert-info').val("Customer successfully removed");
+                    $('.alert-info').show();
                 }
             });
         }
@@ -50,8 +67,12 @@
             changeColumnOrder($(this).attr("header-column"));
         });
 
-        $(document).on("click", ".page-link", function (node) {
+        $(document).on("click", ".page-link", function () {
             refreshPage($(this).attr("page-link-value"));
+        });
+
+        $(document).on("click", "#removebutton", function () {
+            removeCustomer($(this).attr("customerid"), $(this).attr("customername") );
         });
 
         function changeColumnOrder(headerColumn) {

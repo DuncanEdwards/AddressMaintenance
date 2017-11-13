@@ -96,15 +96,24 @@ namespace AddressMaintenance.Client.Controllers
         }
 
         [Route("customer/remove/{id}")]
-        public ActionResult RemoveCustomer(string id, string firstName, string lastName)
+        public ActionResult RemoveCustomer(
+            string id, 
+            int pageNumber, 
+            string orderBy, 
+            bool isDesc, 
+            string searchTerm)
         {
-            var message = "User " + firstName + " " + lastName + " successfully removed.";
             AddressMaintenanceChannel.Instance.Service.RemoveCustomer(Guid.Parse(id));
-            return RedirectToAction("Index", "Home", new { message = message });
+            return RedirectToAction("CustomerData", "Home", new { pageNumber = pageNumber, orderBy = orderBy, isDesc = isDesc, searchTerm = searchTerm });
         }
 
         public ActionResult CustomerData(int pageNumber, string orderBy, bool isDesc, string searchTerm)
         {
+            //Redirect sometimes turns this null
+            if (String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = String.Empty;
+            }
             var customerSortField = (orderBy == "firstname") ? CustomerSortField.FirstName : CustomerSortField.LastName;
             var listSortDirection = (isDesc) ? ListSortDirection.Descending : ListSortDirection.Ascending;
             var customersPagedList = AddressMaintenanceChannel.Instance.Service.GetAllCustomers(

@@ -26,7 +26,7 @@
                 <td>@(customer.CurrentAddress == null?"<span class='badge badge-warning'>No current address</span>": customer.CurrentAddress.ToString())</td>
                 <td>
                     <button type="button" onclick='location.href="@Url.Action("EditCustomer", "Home", new { id = customer.Id } )"' class="btn btn-sm btn-primary fa fa-edit"></button>
-                    <button type="button" onclick='location.href="@Url.Action("RemoveCustomer", "Home", new { id = customer.Id, Firstname = customer.FirstName, Lastname = customer.LastName })"' class="btn btn-sm btn-error fa fa-trash-o"></button>
+                    <button type="button" id="removebutton" class="btn btn-sm btn-error fa fa-trash-o" customerid="@customer.Id" customername="@customer.ToString()"></button>
                 </td>
             </tr>
         }

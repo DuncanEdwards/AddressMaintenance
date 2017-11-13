@@ -1,9 +1,11 @@
 ﻿using AddressMaintenance.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
+using System.Web.Configuration;
 
 namespace AddressMaintenance.Client.Helpers
 {
@@ -23,7 +25,7 @@ namespace AddressMaintenance.Client.Helpers
             BasicHttpBinding binding = new BasicHttpBinding();
 
             //Create EndPoint address  
-            EndpointAddress endpointAddress = new EndpointAddress("http://localhost:8733/Design_Time_Addresses/AddressMaintenance.Service/AddressMaintenanceService/");
+            EndpointAddress endpointAddress = new EndpointAddress(WebConfigurationManager.AppSettings["baseAddress"]);
 
             //Pass Binding and EndPoint address to ChannelFactory  
             var channelFactory = new ChannelFactory<IAddressMaintenanceService>(binding, endpointAddress);
