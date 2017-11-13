@@ -8,6 +8,15 @@ namespace AddressMaintenance.Repository.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Customers",
+                c => new
+                {
+                    Id = c.Guid(nullable: false),
+                    FirstName = c.String(nullable: false, maxLength: 300),
+                    LastName = c.String(nullable: false, maxLength: 300)
+                })
+                .PrimaryKey(t => t.Id);
+            CreateTable(
                 "dbo.Addresses",
                 c => new
                     {
