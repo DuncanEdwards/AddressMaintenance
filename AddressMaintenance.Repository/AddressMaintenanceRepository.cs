@@ -62,6 +62,7 @@ namespace AddressMaintenance.Repository
             {
                 foreach (var address in customer.Addresses.ToList())
                 {
+                    address.ValidFrom = DateTime.Now;
                     context.Addresses.Add(address);
                     customer.Addresses.Add(address);
                 }

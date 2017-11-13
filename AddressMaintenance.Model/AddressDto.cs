@@ -30,7 +30,6 @@ namespace AddressMaintenance.Model
         public DateTime? ValidUntil { get; set; }
 
         [DataMember]
-        [Required]
         public DateTime? ValidFrom { get; set; }
 
         public override string ToString()
