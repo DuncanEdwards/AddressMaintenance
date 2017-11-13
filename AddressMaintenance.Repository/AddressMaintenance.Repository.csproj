@@ -78,7 +78,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Paging\PagedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test Data\TestDataExtensionMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -24,5 +24,7 @@ namespace AddressMaintenance.Repository
 
         void RemoveCustomer(Guid id);
 
+        void CreateTestData();
+
     }
 }

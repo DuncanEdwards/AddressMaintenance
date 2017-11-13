@@ -2,7 +2,6 @@
 using AddressMaintenance.Model;
 using AddressMaintenance.Repository;
 using AddressMaintenance.Repository.Entities;
-using AddressMaintenance.Repository.Test_Data;
 using AutoMapper;
 using Castle.Windsor;
 using Castle.Windsor.Configuration.Interpreters;
@@ -34,7 +33,7 @@ namespace AddressMaintenance.Service
                 config.CreateMap<AddressDto, Address>();
             });
 
-            (new AddressMaintenanceContext()).CreateTestData();
+            _repository.CreateTestData();
         }
 
         public Guid AddCustomer(CustomerDto customer)
@@ -76,5 +75,6 @@ namespace AddressMaintenance.Service
         {
             _repository.RemoveCustomer(id);
         }
+
     }
 }
