@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.ServiceModel;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,28 +12,23 @@ namespace AddressMaintenance.Client.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(string message)
+        /// <summary>
+        /// Main customer list page
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Index()
         {
-            ViewBag.Message = message;
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
+        /// <summary>
+        /// Show edit/add customer form
+        /// </summary>
+        /// <param name="id">Populated for edit and null for add</param>
+        /// <returns>EditCustomer form</returns>
         public ActionResult EditCustomer(string id)
         {
+            
             CustomerDto customerDto = null;
             if (!String.IsNullOrEmpty(id))
             {
@@ -43,6 +39,7 @@ namespace AddressMaintenance.Client.Controllers
 
         public ActionResult AddCustomer(FormCollection form)
         {
+            //Add new customer (ajax)
             var customerDto = new CustomerDto() {
                 FirstName = form["firstname"],
                 LastName = form["lastname"]
@@ -55,12 +52,22 @@ namespace AddressMaintenance.Client.Controllers
                 PostCode = form["postcode"]
             };
             customerDto.Addresses.Add(addressDto);
-            AddressMaintenanceChannel.Instance.Service.AddCustomer(customerDto);
-            return Json("Customer " + customerDto.FirstName + " " + customerDto.LastName + " successfully added.");
+            bool isSuccess = true;
+            var message = "Customer " + customerDto.FirstName + " " + customerDto.LastName + " successfully added.";
+            try
+            {
+                AddressMaintenanceChannel.Instance.Service.AddCustomer(customerDto);
+            } catch (FaultException faultException) {
+                isSuccess = false;
+                message = faultException.Message;
+            }
+            
+            return Json( new { IsSuccess = isSuccess, Message = message });
         }
 
         public ActionResult SaveCustomer(FormCollection form)
         {
+            //Save an existing customer
             //We don't pass address stuff on, so we need to refresh
             var customerDto = AddressMaintenanceChannel.Instance.Service.GetCustomer(Guid.Parse(form["customerid"]));
             if (Convert.ToBoolean(form["ischangeaddress"]))

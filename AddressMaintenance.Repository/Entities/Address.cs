@@ -24,6 +24,7 @@ namespace AddressMaintenance.Repository.Entities
 
         public DateTime? ValidUntil { get; set; }
 
+        [Required]
         public DateTime? ValidFrom { get; set; }
 
     }

@@ -23,12 +23,14 @@ namespace AddressMaintenance.Model
         public string AddressLine3 { get; set; }
 
         [DataMember]
+        [Required]
         public string PostCode { get; set; }
 
         [DataMember]
         public DateTime? ValidUntil { get; set; }
 
         [DataMember]
+        [Required]
         public DateTime? ValidFrom { get; set; }
 
         public override string ToString()

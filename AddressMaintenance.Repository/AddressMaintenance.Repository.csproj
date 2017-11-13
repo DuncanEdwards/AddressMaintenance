@@ -71,9 +71,14 @@
     <Compile Include="Migrations\201711111604283_Tweaked required values.Designer.cs">
       <DependentUpon>201711111604283_Tweaked required values.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711131033357_Made ValidFrom field not null.cs" />
+    <Compile Include="Migrations\201711131033357_Made ValidFrom field not null.Designer.cs">
+      <DependentUpon>201711131033357_Made ValidFrom field not null.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Paging\PagedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test Data\TestDataExtensionMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -100,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711111604283_Tweaked required values.resx">
       <DependentUpon>201711111604283_Tweaked required values.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131033357_Made ValidFrom field not null.resx">
+      <DependentUpon>201711131033357_Made ValidFrom field not null.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

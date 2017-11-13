@@ -23,29 +23,35 @@
             if ($("#customerid").val()) {
                 $("#add-customer-form").submit();
                 return;
+            } else {
+                event.preventDefault();
             }
                 
             var customerForm = $("#add-customer-form")[0];
             var customerFormData = $(customerForm).serializeArray();
 
+            $(".alert-danger").hide();
             $(".alert-info").hide();
             $.ajax({
                 type: 'POST',
                 url: customerForm.action,
                 data: customerFormData,
-                success: function (message) {
-                    @if (Model == null)
-                    {
-                        @:$("#firstname").val("");
-                        @:$("#lastname").val("");
-                        @:$("#addressline1").val("");
-                        @:$("#addressline2").val("");
-                        @:$("#addressline3").val("");
-                        @:$("#postcode").val("");
-                    }
+                success: function (result) {
                     $("#firstname").focus();
-                    $(".alert-info").text(message);
-                    $(".alert-info").show();
+                    if (result.IsSuccess) {
+                        $("#firstname").val("");
+                        $("#lastname").val("");
+                        $("#addressline1").val("");
+                        $("#addressline2").val("");
+                        $("#addressline3").val("");
+                        $("#postcode").val("");
+                        $(".alert-info").text(result.Message);
+                        $(".alert-info").show();
+                    } else {
+                        $(".alert-danger").text(result.Message);
+                        $(".alert-danger").show();
+                    }
+
 
                 }
             });
@@ -59,6 +65,8 @@
 
             <!-- Form Name -->
             <legend>@((Model == null)?"Add":"Edit") Customer</legend>
+
+            <div class="alert alert-danger" style="display:none" role="alert"></div>
 
             <div class="alert alert-info" style="display:@((ViewBag.Message != null)?"block":"none");" role="alert">
                 @ViewBag.Message

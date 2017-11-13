@@ -27,6 +27,6 @@ textarea {
     display:none;
 }
 
-button {
+button, .sort-header {
     cursor:pointer;
 }
