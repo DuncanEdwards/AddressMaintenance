@@ -36,9 +36,13 @@ namespace AddressMaintenance.Repository
                     customersBeforePaging = customersBeforePaging
                         .Where(u =>
                             (u.FirstName.Contains(searchQueryForWhereClause) ||
-                              u.LastName.Contains(searchQueryForWhereClause)));
+                              u.LastName.Contains(searchQueryForWhereClause) ||
+                              u.Addresses.FirstOrDefault(a => (!a.ValidUntil.HasValue)).AddressLine1.Contains((searchQueryForWhereClause)) ||
+                              u.Addresses.FirstOrDefault(a => (!a.ValidUntil.HasValue)).AddressLine2.Contains((searchQueryForWhereClause)) ||
+                              u.Addresses.FirstOrDefault(a => (!a.ValidUntil.HasValue)).AddressLine3.Contains((searchQueryForWhereClause)) ||
+                              u.Addresses.FirstOrDefault(a => (!a.ValidUntil.HasValue)).PostCode.Contains((searchQueryForWhereClause))
+                              ));
                 }
-
 
                 var pagedList =  PagedList<Customer>.Create(customersBeforePaging, pageNumber, pageSize);
                 foreach (var customer in pagedList)
